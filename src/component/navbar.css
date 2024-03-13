@@ -1,0 +1,17 @@
+.icon {
+	font-size: 20px;
+	
+}
+
+.icon-btn:hover .icon {
+	font-size: 12px; /* Adjust the size of the icon on hover */
+}
+.icon-name {
+	display: none;
+	text-align: center;
+	font-size: 9px;
+}
+
+.icon-btn:hover .icon-name {
+	display: block;
+}
