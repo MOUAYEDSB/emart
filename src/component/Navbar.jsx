@@ -1,7 +1,6 @@
 import React from "react";
 import { FaSignInAlt, FaUserPlus, FaShoppingCart } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
 
@@ -56,7 +55,7 @@ function Navbar() {
               </li>
             </ul>
             <div className="buttons">
-              <NavLink to="/LoginPage" className="btn me-3 icon-btn" title="login">
+              <NavLink to="/Login" className="btn me-3 icon-btn" title="login">
                 <FaSignInAlt className="icon" /> {/* Login icon */}
                 <span className="icon-name">Login</span>
               </NavLink>

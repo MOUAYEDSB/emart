@@ -1,124 +1,138 @@
-import React, { useState } from "react";
-import {
-  MDBContainer,
-  MDBTabs,
-  MDBTabsItem,
-  MDBTabsLink,
-  MDBTabsContent,
-  MDBTabsPane,
-  MDBBtn,
-  MDBIcon,
-  MDBInput,
-  MDBCheckbox,
-} from "mdb-react-ui-kit";
+import React from "react";
 
-const LoginPage = () => {
-  const [justifyActive, setJustifyActive] = useState("tab1");
-
-  const handleJustifyClick = (value) => {
-    if (value === justifyActive) {
-      return;
-    }
-    setJustifyActive(value);
-  };
-
+const Login = () => {
   return (
-    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-      <MDBTabs
-        pills
-        justify
-        className="mb-3 d-flex flex-row justify-content-between"
+    <section className="login">
+      <div
+        className="px-4 py-5 px-md-5 text-center text-lg-start"
+        style={{ backgroundColor: "hsl(0, 0%, 96%)" }}
       >
-        <MDBTabsItem>
-          <MDBTabsLink
-            onClick={() => handleJustifyClick("tab1")}
-            active={justifyActive === "tab1"}
-          >
-            Login
-          </MDBTabsLink>
-        </MDBTabsItem>
-      </MDBTabs>
-
-      <MDBTabsContent>
-        <MDBTabsPane show={justifyActive === "tab1"}>
-          <div className="text-center mb-3">
-            <p>Sign in with:</p>
-
-            <div
-              className="d-flex justify-content-between mx-auto"
-              style={{ width: "40%" }}
-            >
-              <MDBBtn
-                tag="a"
-                color="none"
-                className="m-1"
-                style={{ color: "#1266f1" }}
-              >
-                <MDBIcon fab icon="facebook-f" size="sm" />
-              </MDBBtn>
-
-              <MDBBtn
-                tag="a"
-                color="none"
-                className="m-1"
-                style={{ color: "#1266f1" }}
-              >
-                <MDBIcon fab icon="twitter" size="sm" />
-              </MDBBtn>
-
-              <MDBBtn
-                tag="a"
-                color="none"
-                className="m-1"
-                style={{ color: "#1266f1" }}
-              >
-                <MDBIcon fab icon="google" size="sm" />
-              </MDBBtn>
-
-              <MDBBtn
-                tag="a"
-                color="none"
-                className="m-1"
-                style={{ color: "#1266f1" }}
-              >
-                <MDBIcon fab icon="github" size="sm" />
-              </MDBBtn>
+        <div className="container">
+          <div className="row gx-lg-5 align-items-center">
+            <div className="col-lg-6 mb-5 mb-lg-0">
+              <h1 className="my-5 display-3 fw-bold ls-tight">
+                The best offer <br />
+                <span className="text-primary">for your business</span>
+              </h1>
+              <p style={{ color: "hsl(217, 10%, 50.8%)" }}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                quibusdam tempora at cupiditate quis eum maiores libero
+                veritatis? Dicta facilis sint aliquid ipsum atque?
+              </p>
             </div>
 
-            <p className="text-center mt-3">or:</p>
+            <div className="col-lg-6 mb-5 mb-lg-0">
+              <div className="card">
+                <div className="card-body py-5 px-md-5">
+                  <form>
+                    <div className="row">
+                      <div className="col-md-6 mb-4">
+                        <div className="form-outline">
+                          <input
+                            type="text"
+                            id="form3Example1"
+                            className="form-control"
+                          />
+                          <label className="form-label" htmlFor="form3Example1">
+                            First name
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col-md-6 mb-4">
+                        <div className="form-outline">
+                          <input
+                            type="text"
+                            id="form3Example2"
+                            className="form-control"
+                          />
+                          <label className="form-label" htmlFor="form3Example2">
+                            Last name
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-outline mb-4">
+                      <input
+                        type="email"
+                        id="form3Example3"
+                        className="form-control"
+                      />
+                      <label className="form-label" htmlFor="form3Example3">
+                        Email address
+                      </label>
+                    </div>
+
+                    <div className="form-outline mb-4">
+                      <input
+                        type="password"
+                        id="form3Example4"
+                        className="form-control"
+                      />
+                      <label className="form-label" htmlFor="form3Example4">
+                        Password
+                      </label>
+                    </div>
+
+                    <div className="form-check d-flex justify-content-center mb-4">
+                      <input
+                        className="form-check-input me-2"
+                        type="checkbox"
+                        value=""
+                        id="form2Example33"
+                        checked
+                      />
+                      <label className="form-check-label" htmlFor="form2Example33">
+                        Subscribe to our newsletter
+                      </label>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-block mb-4"
+                    >
+                      Sign up
+                    </button>
+
+                    <div className="text-center">
+                      <p>or sign up with:</p>
+                      <button
+                        type="button"
+                        className="btn btn-link btn-floating mx-1"
+                      >
+                        <i className="fab fa-facebook-f"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-link btn-floating mx-1"
+                      >
+                        <i className="fab fa-google"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-link btn-floating mx-1"
+                      >
+                        <i className="fab fa-twitter"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-link btn-floating mx-1"
+                      >
+                        <i className="fab fa-github"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <MDBInput
-            wrapperClass="mb-4"
-            label="Email address"
-            id="form1"
-            type="email"
-          />
-          <MDBInput
-            wrapperClass="mb-4"
-            label="Password"
-            id="form2"
-            type="password"
-          />
-
-          <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox
-              name="flexCheck"
-              value=""
-              id="flexCheckDefault"
-              label="Remember me"
-            />
-            <a href="!#">Forgot password?</a>
-          </div>
-
-          <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
-          <p className="text-center">
-            Not a member? <a href="#!">Register</a>
-          </p>
-        </MDBTabsPane>
-      </MDBTabsContent>
-    </MDBContainer>
+        </div>
+      </div>
+    </section>
   );
-};
-
-export default LoginPage;
+}
+export default Login;
