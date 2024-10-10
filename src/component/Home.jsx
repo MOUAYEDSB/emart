@@ -41,8 +41,8 @@ const Home = () => {
       <div>
         <About />
         <ProductsComponent />
-        <Contact />
         <Services />
+        <Contact />
         <Footer />
       </div>
     </div>

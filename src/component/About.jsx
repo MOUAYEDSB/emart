@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const About = () => {
   return (
-    <div>
+    <div id="about-us">
       <div className="container py-5 my-5">
         <div className="row">
           <div className="col-md-6">

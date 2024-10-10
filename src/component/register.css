@@ -1,0 +1,26 @@
+.form-outline {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-outline input {
+  padding: 10px 12px;
+  color: rgb(13 110 253); /* Add padding to inputs */
+}
+
+.form-outline label {
+  position: absolute;
+  left: 12px;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical position */
+  transition: 0.2s ease all;
+  color: #999; /* Label color */
+}
+
+.form-outline input:focus + label,
+.form-outline input:not(:placeholder-shown) + label {
+  top: -10px; /* Move the label up */
+  left: 12px;
+  font-size: 12px; /* Adjust label size */
+  color: #007bff; /* Change label color on focus */
+}

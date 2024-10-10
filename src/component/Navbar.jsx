@@ -1,12 +1,12 @@
 import React from "react";
 import { FaSignInAlt, FaUserPlus, FaShoppingCart } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { HashLink } from "react-router-hash-link";
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
 
-
 function Navbar() {
-  const state = useSelector((state)=> state.handleCart)
+  const state = useSelector((state) => state.handleCart);
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary bg-white py-3 shadow-sm">
@@ -42,16 +42,22 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link fw-bold fs-6" to="/About">
+                <HashLink
+                  className="nav-link fw-bold fs-6"
+                  smooth
+                  to="/#about-us"
+                >
                   About
-                </NavLink>
+                </HashLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link fw-bold fs-6" to="/Contact">
-                  {" "}
-                  {/* Fix the path */}
+                <HashLink
+                  className="nav-link fw-bold fs-6"
+                  smooth
+                  to="/#contact-us"
+                >
                   Contact
-                </NavLink>
+                </HashLink>
               </li>
             </ul>
             <div className="buttons">

@@ -12,12 +12,15 @@ import OneProduct from "./component/OneProductPage";
 import Login from "./component/Login";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import Cart from "./component/CartPage";
-// import Footer from "./component/Footer"
+import Dashboard from "./component/dashboard/Dashboard";
+import Register from "./component/Register";
+// import Footer from "./component/Footer";
 
 const Layout = ({ children }) => {
   const location = useLocation();
 
-  const showNavbar = location.pathname !== "/login";
+  // Show Navbar if not on Login or Register pages
+  const showNavbar = location.pathname !== "/login" && location.pathname !== "/Register";
 
   return (
     <>
@@ -55,12 +58,28 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route
           path="/cart"
           element={
             <Layout>
               <Cart />
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <Register />
             </Layout>
           }
         />
