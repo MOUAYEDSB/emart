@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/action/userActions";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const loginState = useSelector((state) => state.login);
+  const { loading, error } = loginState;
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(loginUser({ email, password }));
+  };
+
   return (
     <section className="login">
       <div
@@ -22,77 +36,63 @@ const Login = () => {
             <div className="col-lg-6 mb-5 mb-lg-0">
               <div className="card">
                 <div className="card-body py-5 px-md-5">
-                  <form>
-                    <div className="row">
-                      <div className="form-outline mb-4">
-                        <input
-                          type="email"
-                          id="form3Example3"
-                          className="form-control"
-                        />
-                        <label className="form-label" htmlFor="form3Example3">
-                          Email address
-                        </label>
-                      </div>
-
-                      <div className="form-outline mb-4">
-                        <input
-                          type="password"
-                          id="form3Example4"
-                          className="form-control"
-                        />
-                        <label className="form-label" htmlFor="form3Example4">
-                          Password
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="form-check d-flex justify-content-center mb-4">
+                  <form onSubmit={handleLogin}>
+                    <div className="form-outline mb-4">
                       <input
-                        className="form-check-input-dark me-2"
-                        type="checkbox"
-                        value=""
-                        id="form2Example33"
-                        checked
+                        type="email"
+                        id="form3Example3"
+                        className="form-control"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
-                      <label
-                        className="form-check-label"
-                        htmlFor="form2Example33"
-                      >
-                        Subscribe to our newsletter
+                      <label className="form-label" htmlFor="form3Example3">
+                        Email address
                       </label>
                     </div>
+
+                    <div className="form-outline mb-4">
+                      <input
+                        type="password"
+                        id="form3Example4"
+                        className="form-control"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <label className="form-label" htmlFor="form3Example4">
+                        Password
+                      </label>
+                    </div>
+
+                    {loading && <p>Loading...</p>}
+                    {error && <p className="text-danger">{error}</p>}
 
                     <button
                       type="submit"
                       className="btn btn-dark btn-block mb-4"
                     >
-                      Sign up
+                      Log In
                     </button>
 
                     <div className="text-center">
-                      <p>or sign up with:</p>
+                      <p>or sign in with:</p>
                       <button
                         type="button"
                         className="btn btn-link-dark btn-floating mx-1"
                       >
                         <i className="fab fa-facebook-f"></i>
                       </button>
-
                       <button
                         type="button"
                         className="btn btn-link-dark btn-floating mx-1"
                       >
                         <i className="fab fa-google"></i>
                       </button>
-
                       <button
                         type="button"
                         className="btn btn-link-dark btn-floating mx-1"
                       >
                         <i className="fab fa-twitter"></i>
                       </button>
-
                       <button
                         type="button"
                         className="btn btn-link-dark btn-floating mx-1"
@@ -110,4 +110,5 @@ const Login = () => {
     </section>
   );
 };
+
 export default Login;
