@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"; // Import useState and useEffect
-import {  FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
+import { FaSignInAlt, FaUserPlus, FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
+import { HashLink } from "react-router-hash-link";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/action/userActions"; // Correct the import
 import "./navbarclient.css";
@@ -42,7 +43,7 @@ function NavbarClient() {
               <NavLink className="nav-link active fw-bold fs-6" aria-current="page" to="#">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link fw-bold fs-6" to="#">Offeres</NavLink>
+              <NavLink className="nav-link fw-bold fs-6" to="#">Offers</NavLink>
             </li>
           </ul>
           <div className="buttons">
