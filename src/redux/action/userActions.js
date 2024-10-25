@@ -12,6 +12,9 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 
+// Action Types for Logout
+export const LOGOUT = 'LOGOUT'; // New action type for logout
+
 // Action Creators for Registration
 export const registerRequest = createAction(REGISTER_REQUEST);
 export const registerSuccess = createAction(REGISTER_SUCCESS);
@@ -22,6 +25,9 @@ export const resetRegisterState = createAction(RESET_REGISTER_STATE);
 export const loginRequest = createAction(LOGIN_REQUEST);
 export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const loginFail = createAction(LOGIN_FAIL);
+
+// Action Creator for Logout
+export const logout = createAction(LOGOUT); // New action creator for logout
 
 // Async Action for Registration
 export const registerUser = (userData) => async (dispatch) => {
@@ -55,4 +61,16 @@ export const loginUser = (userCredentials) => async (dispatch) => {
     } catch (error) {
         dispatch(loginFail(error.response ? error.response.data.message : error.message));
     }
+};
+
+// Async Action for Logout
+export const logoutUser = () => (dispatch) => {
+    // Clear user data from local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userRole');
+
+    // Dispatch logout action to update Redux state
+    dispatch(logout());
 };

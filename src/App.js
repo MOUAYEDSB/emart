@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import Home from "./component/Home";
 import Navbar from "./component/Navbar";
@@ -14,13 +15,11 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import Cart from "./component/CartPage";
 import Dashboard from "./component/dashboard/Dashboard";
 import Register from "./component/Register";
-// import Footer from "./component/Footer";
+import ClientDashboard from "./component/client_dashboard/dashboard";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-
-  // Show Navbar if not on Login or Register pages
-  const showNavbar = location.pathname !== "/login" && location.pathname !== "/Register";
+  const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
 
   return (
     <>
@@ -28,6 +27,13 @@ const Layout = ({ children }) => {
       {children}
     </>
   );
+};
+
+// Function to check if the user is a client and logged in
+const isClientLoggedIn = () => {
+  const userRole = localStorage.getItem("userRole");
+  const token = localStorage.getItem("token");
+  return userRole === "client" && token !== null;
 };
 
 function App() {
@@ -83,8 +89,17 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/client_dashboard"
+          element={
+            isClientLoggedIn() ? (
+              <ClientDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
-      {/* <Footer /> */}
     </Router>
   );
 }

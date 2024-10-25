@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL } from '../action/userActions';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../action/userActions';
 
 const initialState = {
     loading: false,
@@ -16,6 +16,9 @@ const loginReducer = (state = initialState, action) => {
 
         case LOGIN_FAIL:
             return { loading: false, error: action.payload };
+
+        case LOGOUT:
+            return initialState; // Reset state on logout
 
         default:
             return state;

@@ -1,26 +1,38 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/action/userActions";
+import { NavLink, useNavigate } from "react-router-dom"; // Correct import statement
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
   const loginState = useSelector((state) => state.login);
   const { loading, error } = loginState;
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password }))
+      .then(() => {
+        // Check the role after a successful login
+        const userRole = localStorage.getItem("userRole");
+        if (userRole === "client") {
+          navigate("/client_dashboard"); // Redirect to client dashboard
+        } else {
+          navigate("/dashboard"); // Redirect to another dashboard or home
+        }
+      })
+      .catch((err) => {
+        // Handle login failure, if necessary
+        console.error(err);
+      });
   };
 
   return (
     <section className="login">
-      <div
-        className="px-4 py-5 px-md-5 text-center text-lg-start"
-        style={{ backgroundColor: "hsl(0, 0%, 96%)" }}
-      >
+      <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: "hsl(0, 0%, 96%)" }}>
         <div className="container">
           <div className="row gx-lg-5 align-items-center">
             <div className="col-lg-6 mb-5 mb-lg-0">
@@ -44,6 +56,7 @@ const Login = () => {
                         className="form-control"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required // Make the input required
                       />
                       <label className="form-label" htmlFor="form3Example3">
                         Email address
@@ -57,6 +70,7 @@ const Login = () => {
                         className="form-control"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required // Make the input required
                       />
                       <label className="form-label" htmlFor="form3Example4">
                         Password
@@ -66,39 +80,34 @@ const Login = () => {
                     {loading && <p>Loading...</p>}
                     {error && <p className="text-danger">{error}</p>}
 
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-block mb-4"
-                    >
+                    <button type="submit" className="btn btn-dark btn-block mb-4">
                       Log In
                     </button>
 
                     <div className="text-center">
                       <p>or sign in with:</p>
-                      <button
-                        type="button"
-                        className="btn btn-link-dark btn-floating mx-1"
-                      >
+                      <button type="button" className="btn btn-link-dark btn-floating mx-1">
                         <i className="fab fa-facebook-f"></i>
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-link-dark btn-floating mx-1"
-                      >
+                      <button type="button" className="btn btn-link-dark btn-floating mx-1">
                         <i className="fab fa-google"></i>
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-link-dark btn-floating mx-1"
-                      >
+                      <button type="button" className="btn btn-link-dark btn-floating mx-1">
                         <i className="fab fa-twitter"></i>
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-link-dark btn-floating mx-1"
-                      >
+                      <button type="button" className="btn btn-link-dark btn-floating mx-1">
                         <i className="fab fa-github"></i>
                       </button>
+                    </div>
+
+                    {/* Register Button */}
+                    <div className="text-center mt-4">
+                      <p>
+                        Don't have an account?{" "}
+                        <NavLink to="/register" className="text-primary">
+                          Register here
+                        </NavLink>
+                      </p>
                     </div>
                   </form>
                 </div>
