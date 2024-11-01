@@ -56,7 +56,7 @@ exports.updateUserProfile = async (req, res) => {
   const { id } = req.params;
   const { name, prenom, email, password, phone } = req.body;
 
-  const updateData = { name, email, phone };
+  const updateData = { name, prenom, email, phone };
 
   // Hash the password if it's provided in the request
   if (password) {

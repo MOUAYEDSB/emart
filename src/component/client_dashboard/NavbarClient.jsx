@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
-import { FaSignInAlt, FaUserPlus, FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaShoppingCart, FaSignOutAlt, FaUser, FaUserCircle } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { HashLink } from "react-router-hash-link";
 import { NavLink, useNavigate } from "react-router-dom";
-import { logoutUser } from "../../redux/action/userActions"; // Correct the import
+import { logoutUser } from "../../redux/action/userActions";
 import "./navbarclient.css";
 
 function NavbarClient() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartState = useSelector((state) => state.handleCart);
-  
-  // State to track login status
+
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem("token")));
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    // Monitor localStorage changes (especially after logout)
     const handleStorageChange = () => {
       setIsLoggedIn(Boolean(localStorage.getItem("token")));
     };
@@ -26,9 +24,11 @@ function NavbarClient() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    setIsLoggedIn(false); // Update state
+    setIsLoggedIn(false);
     navigate("/login");
   };
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary bg-white py-3 shadow-sm">
@@ -40,27 +40,43 @@ function NavbarClient() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className="nav-link active fw-bold fs-6" aria-current="page" to="#">Home</NavLink>
+              <NavLink className="nav-link active fw-bold fs-6" aria-current="page" to="/client_dashboard">Home</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link fw-bold fs-6" to="#">Offers</NavLink>
             </li>
           </ul>
-          <div className="buttons">
-            {isLoggedIn ? (
-              <button onClick={handleLogout} className="btn me-3 icon-btn" title="Logout">
-                <FaSignOutAlt className="icon" />
-                <span className="icon-name">Logout</span>
-              </button>
-            ) : (
-              <>
-               
-                
-              </>
-            )}
+          <div className="buttons d-flex align-items-center">
             <NavLink to="/cart" className="btn me-3 icon-btn" title="Cart">
               <FaShoppingCart /> ({cartState.length})
             </NavLink>
+
+            {isLoggedIn && (
+              <div className="dropdown">
+                <button 
+                  className="btn icon-btn" 
+                  onClick={toggleDropdown} 
+                  title="Account"
+                  aria-haspopup="true" 
+                  aria-expanded={isDropdownOpen}
+                >
+                  <FaUser className="icon" /> {localStorage.getItem("userName")}
+                </button>
+                {isDropdownOpen && (
+                  <div className="dropdown-menu show">
+                    <NavLink className="dropdown-item" to="/profile">
+                      <FaUserCircle className="icon me-2" /> Profile
+                    </NavLink>
+                    <NavLink className="dropdown-item" to="/sitting">
+                      <FaUserCircle className="icon me-2" /> Sitting
+                    </NavLink>
+                    <button onClick={handleLogout} className="dropdown-item">
+                      <FaSignOutAlt className="icon me-2" /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

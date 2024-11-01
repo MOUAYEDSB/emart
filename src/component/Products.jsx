@@ -104,18 +104,7 @@ const ProductsComponent = () => {
             >
               Kids
             </button>
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => filterProduct("electronics")}
-            >
-              Electronics
-            </button>
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => filterProduct("jewelery")}
-            >
-              Jewelry
-            </button>
+            
           </div>
           {loading ? (
             <div className="text-center">

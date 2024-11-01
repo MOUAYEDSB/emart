@@ -16,7 +16,7 @@ router.post('/login', login);
 router.get('/:id', getUserById);
 
 // Update User Profile (User can update their own profile; Admin can update any user's profile)
-router.put('/:id', updateUserProfile);
+router.put('/update/:id', updateUserProfile);
 
 // Delete User (Admin)
 router.delete('/:id', deleteUser);
