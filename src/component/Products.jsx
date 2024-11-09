@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import NoItemsAlert from "./noItemsAlert";
 import { useSpring, animated } from "react-spring";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../redux/action/productActions'; 
+import defaultImage from './defaultImage.jpg'; 
 const ProductsComponent = () => {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [hasItems, setHasItems] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, products, error } = useSelector((state) => state.product);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    dispatch(getProducts());
+  }, [dispatch]);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      console.log("Fetched Products: ", products); // Log fetched products
+      setFilteredProducts(products);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -25,49 +32,37 @@ const ProductsComponent = () => {
 
   const productSpring = useSpring({
     opacity: scrollY >= 70 ? 1 : 0,
-    transform: `translateY(${scrollY > 100 ? 5 : 5}px)`,
+    transform: `translateY(${scrollY > 100 ? 5 : 0}px)`,
     config: { mass: 0.5, tension: 200, friction: 100 },
   });
 
-  const filterProduct = (productCategory) => {
-    const updatedList = data.filter((x) => x.category === productCategory);
-
-    if (updatedList.length !== 0) {
-      setHasItems(true);
-      setFilter(updatedList);
+  const filterProducts = (productCategory) => {
+    if (productCategory === "all") {
+      setFilteredProducts(products);
     } else {
-      setHasItems(false);
+      const updatedList = products.filter((x) => x.category === productCategory);
+      setFilteredProducts(updatedList);
     }
   };
 
-  useEffect(() => {
-    let componentMounted = true;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const products = await response.json();
-        if (componentMounted) {
-          setData(products);
-          setFilter(products);
-          setLoading(false);
-          if (products.length !== 0) {
-            setHasItems(true);
-          } else {
-            setHasItems(false);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      componentMounted = false;
-    };
-  }, []);
+  const renderImages = (product) => {
+    const imageSrc = `http://localhost:5000/${product.images[0]?.replace(/\\/g, '/') || './defaultImage.jpg'}`;
+    console.log("Image Source: ", imageSrc); // Log the image source
+    
+    return (
+      <img
+        className="card-img-top"
+        src={imageSrc}
+        alt={product.title}
+        height="250px"
+        onError={(e) => {
+          console.error("Image load error for URL: ", e.target.src); // Log the error with the image URL
+          e.target.onerror = null; // Prevent looping
+          e.target.src = defaultImage; // Use the imported default image
+        }}
+      />
+    );
+  };
 
   return (
     <div>
@@ -80,58 +75,44 @@ const ProductsComponent = () => {
         </div>
         <div className="row justify-content-center">
           <div className="buttons d-flex justify-content-center mb-5 pb-5">
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => setFilter(data)}
-            >
+            <button className="btn btn-outline-dark me-2" onClick={() => filterProducts("all")}>
               All
             </button>
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => filterProduct("men's clothing")}
-            >
+            <button className="btn btn-outline-dark me-2" onClick={() => filterProducts("men's clothing")}>
               Men's Clothing
             </button>
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => filterProduct("women's clothing")}
-            >
+            <button className="btn btn-outline-dark me-2" onClick={() => filterProducts("women's clothing")}>
               Women's Clothing
             </button>
-            <button
-              className="btn btn-outline-dark me-2"
-              onClick={() => filterProduct("kids")}
-            >
+            <button className="btn btn-outline-dark me-2" onClick={() => filterProducts("kids")}>
               Kids
             </button>
-            
           </div>
           {loading ? (
             <div className="text-center">
               <Spinner animation="border" variant="dark" />
             </div>
-          ) : hasItems === false ? (
+          ) : error ? (
+            <div className="text-center text-danger">
+              <p>{error}</p>
+            </div>
+          ) : filteredProducts.length === 0 ? (
             <div className="text-center">
-              <NoItemsAlert />
+              <p>No products found.</p>
             </div>
           ) : (
             <animated.div className="row" style={productSpring}>
-              {filter.map((product) => (
-                <div key={product.id} className="col-md-3 mb-4">
+              {filteredProducts.map((product) => (
+                <div key={product._id} className="col-md-3 mb-4">
                   <div className="card h-100 text-center p-4">
-                    <img
-                      className="card-img-top"
-                      src={product.image}
-                      alt={product.title}
-                      height="250px"
-                    />
+                    {renderImages(product)}
                     <div className="card-body">
                       <h5 className="card-title mb-0">
                         {product.title.substring(0, 12)}...
                       </h5>
                       <p className="card-text lead fw-bold">${product.price}</p>
                       <NavLink
-                        to={`/products/${product.id}`}
+                        to={`/products/${product._id}`}
                         className="btn btn-outline-dark"
                       >
                         Buy Now

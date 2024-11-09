@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/action/userActions";
 import { NavLink, useNavigate } from "react-router-dom"; // Correct import statement
+import { CLEAR_CART, ADD_CART } from '../redux/action/index'; // Ensure this path is correct
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,18 +18,27 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginUser({ email, password }))
       .then(() => {
-        // Check the role after a successful login
-        const userRole = localStorage.getItem("userRole");
-        if (userRole === "client") {
-          navigate("/client_dashboard"); // Redirect to client dashboard
+        // Clear current cart data in Redux on login
+        dispatch({ type: CLEAR_CART });
+  
+        // Load user-specific cart from localStorage into Redux
+        const userId = localStorage.getItem('userId');
+        const cartKey = `cart_${userId}`;
+        const storedCart = localStorage.getItem(cartKey);
+        if (storedCart) {
+          const userCart = JSON.parse(storedCart);
+          userCart.forEach((item) => dispatch({ type: ADD_CART, payload: item }));
+        }
+  
+        // Redirect based on role
+        const userRole = localStorage.getItem('userRole');
+        if (userRole === 'client') {
+          navigate('/client_dashboard');
         } else {
-          navigate("/dashboard"); // Redirect to another dashboard or home
+          navigate('/dashboard');
         }
       })
-      .catch((err) => {
-        // Handle login failure, if necessary
-        console.error(err);
-      });
+      .catch((err) => console.error(err));
   };
 
   return (

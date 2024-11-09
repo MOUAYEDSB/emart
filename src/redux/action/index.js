@@ -1,15 +1,28 @@
-// For Add Item to Cart 
-export const addCart = (product) => {
-    return {
-        type: "ADDITEM",
-        payload: product
-    };
+// src/redux/action/action.js
+
+export const ADD_CART = 'ADD_CART';
+export const DEL_CART = 'DEL_CART';
+export const CLEAR_CART = 'CLEAR_CART'; // Add CLEAR_CART action type
+export const SET_CART = 'SET_CART';
+
+export const addCart = (item) => {
+  return {
+    type: ADD_CART,
+    payload: item,
+  };
 };
 
-// For Delete Item from Cart 
-export const delCart = (product) => {
-    return {
-        type: "DELITEM",
-        payload: product
-    };
+export const delCart = (itemId) => {
+  return {
+    type: DEL_CART,
+    payload: itemId, // Only pass the item's ID to delete
+  };
 };
+
+// Add the action creator for clearing the cart
+export const clearCart = () => {
+  return {
+    type: CLEAR_CART,
+  };
+};
+

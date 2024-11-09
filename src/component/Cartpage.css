@@ -1,0 +1,22 @@
+/* src/Cartpage.css */
+.cart-item {
+	display: flex;
+	align-items: center;
+	padding: 1rem 0;
+	border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .cart-item img {
+	max-width: 80px;
+	margin-right: 1rem;
+  }
+  
+  .cart-item .flex-grow-1 {
+	flex: 1;
+  }
+  
+  .total-summary {
+	font-size: 1.25rem;
+	font-weight: bold;
+  }
+  
