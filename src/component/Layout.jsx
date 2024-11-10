@@ -6,7 +6,8 @@ import NavbarClient from "./client_dashboard/NavbarClient";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
+  const showNavbar =
+    location.pathname !== "/login" && location.pathname !== "/register";
 
   // Determine the user role
   const userRole = localStorage.getItem("userRole");

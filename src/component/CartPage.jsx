@@ -3,8 +3,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { delCart } from "../redux/action"; // Ensure the import path is correct
-import defaultImage from './defaultImage.jpg'; // Default image import
-import './Cartpage.css'; // Add custom CSS file for additional styles
+import defaultImage from "./defaultImage.jpg"; // Default image import
+import "./Cartpage.css"; // Add custom CSS file for additional styles
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.handleCart);
@@ -15,12 +15,15 @@ const Cart = () => {
   };
 
   const handleQuantityChange = (itemId, increment) => {
-    const item = cartItems.find(item => item._id === itemId);
+    const item = cartItems.find((item) => item._id === itemId);
     if (item) {
       const newQuantity = increment ? item.qty + 1 : item.qty - 1;
 
       if (newQuantity > 0) {
-        dispatch({ type: 'UPDATE_CART_QUANTITY', payload: { id: itemId, qty: newQuantity } });
+        dispatch({
+          type: "UPDATE_CART_QUANTITY",
+          payload: { id: itemId, qty: newQuantity },
+        });
       } else {
         handleClose(itemId);
       }
@@ -38,9 +41,10 @@ const Cart = () => {
   };
 
   const renderCartItemImage = (item) => {
-    const imageUrl = item.images && item.images.length > 0
-      ? `http://localhost:5000/${item.images[0].replace(/\\/g, '/')}`
-      : defaultImage;
+    const imageUrl =
+      item.images && item.images.length > 0
+        ? `http://localhost:5000/${item.images[0].replace(/\\/g, "/")}`
+        : defaultImage;
 
     return (
       <img
@@ -61,7 +65,10 @@ const Cart = () => {
     const totalPrice = (itemPrice * itemQty).toFixed(2);
 
     return (
-      <div className="cart-item d-flex align-items-center border-bottom py-3" key={item._id}>
+      <div
+        className="cart-item d-flex align-items-center border-bottom py-3"
+        key={item._id}
+      >
         <div className="me-3">{renderCartItemImage(item)}</div>
         <div className="flex-grow-1">
           <h5 className="mb-1">{item.title}</h5>
@@ -69,9 +76,19 @@ const Cart = () => {
             ${itemPrice} x {itemQty} = ${totalPrice}
           </p>
           <div className="mt-2">
-            <button className="btn btn-outline-secondary me-1" onClick={() => handleQuantityChange(item._id, false)}>-</button>
+            <button
+              className="btn btn-outline-secondary me-1"
+              onClick={() => handleQuantityChange(item._id, false)}
+            >
+              -
+            </button>
             <span>{itemQty}</span>
-            <button className="btn btn-outline-secondary ms-1" onClick={() => handleQuantityChange(item._id, true)}>+</button>
+            <button
+              className="btn btn-outline-secondary ms-1"
+              onClick={() => handleQuantityChange(item._id, true)}
+            >
+              +
+            </button>
             <button
               onClick={() => handleClose(item._id)}
               className="btn btn-danger float-end ms-2"
@@ -88,7 +105,9 @@ const Cart = () => {
   const emptyCart = () => (
     <div className="text-center my-5">
       <h3>Your Cart is Empty</h3>
-      <NavLink to="/" className="btn btn-primary mt-3">Continue Shopping</NavLink>
+      <NavLink to="/" className="btn btn-primary mt-3">
+        Continue Shopping
+      </NavLink>
     </div>
   );
 
